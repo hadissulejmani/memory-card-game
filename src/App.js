@@ -3,12 +3,12 @@ import Card from "./components/Card";
 import { useState, useEffect } from "react";
 
 const cardImages = [
-  { src: "../img/helmet-1.png" },
-  { src: "../img/potion-1.png" },
-  { src: "../img/ring-1.png" },
-  { src: "../img/scroll-1.png" },
-  { src: "../img/shield-1.png" },
-  { src: "../img/sword-1.png" },
+  { src: "../img/helmet-1.png", matched: false },
+  { src: "../img/potion-1.png", matched: false },
+  { src: "../img/ring-1.png", matched: false },
+  { src: "../img/scroll-1.png", matched: false },
+  { src: "../img/shield-1.png", matched: false },
+  { src: "../img/sword-1.png", matched: false },
 ];
 function App() {
   const [cards, setCards] = useState([]);
@@ -28,12 +28,11 @@ function App() {
 
   const handleChoice = (card) => {
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
-    console.log(choiceOne, choiceTwo);
   };
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
-      if (choiceOne.src === choiceTwo.src) {
+      if (choiceOne.target.src === choiceTwo.target.src) {
         console.log("You found a match!");
         resetTurn();
       } else {
@@ -53,9 +52,10 @@ function App() {
     <div className="App">
       <p>Memory card game</p>
       <button onClick={shuffleCards}>New Game</button>
+
       <div className="card-grid">
         {cards.map((card) => (
-          <Card card={card} handleChoice={handleChoice} />
+          <Card card={card} key={card.id} handleChoice={handleChoice} />
         ))}
       </div>
     </div>
