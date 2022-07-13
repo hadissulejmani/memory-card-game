@@ -13,6 +13,7 @@ const cardImages = [
 function App() {
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [matched, setMatched] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
 
@@ -20,8 +21,6 @@ function App() {
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
-
-    console.log(shuffledCards);
     setCards(shuffledCards);
     setTurns(0);
   };
@@ -32,14 +31,22 @@ function App() {
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
-      if (choiceOne.target.src === choiceTwo.target.src) {
-        console.log("You found a match!");
+      if (choiceOne.src === choiceTwo.src) {
+        setCards((prevCards) => {
+          return prevCards.map((card) => {
+            if (card.src === choiceOne.src || card.src === choiceTwo.src) {
+              return { ...card, matched: true };
+            }
+            return card;
+          });
+        });
         resetTurn();
       } else {
         console.log("No match");
         resetTurn();
       }
     }
+    console.log(cards);
   }, [choiceOne, choiceTwo]);
 
   const resetTurn = () => {

@@ -1,7 +1,7 @@
 import "./Card.css";
 
 function Card({ card, handleChoice }) {
-  const handleClick = (card) => {
+  const handleClick = () => {
     handleChoice(card);
   };
 
